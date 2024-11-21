@@ -2,6 +2,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { uploadFile } from '../../services/cloudinaryService';
 import multer from 'multer';
 
+interface CustomNextApiRequest extends NextApiRequest {
+  file?: {
+    buffer: Buffer;
+    originalname: string;
+    mimetype: string;
+    size: number;
+  };
+}
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -11,12 +20,13 @@ export const config = {
   },
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: CustomNextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     upload.single('file')(req as any, res as any, async (err: any) => {
       if (err) {
         return res.status(500).json({ error: 'Failed to process file upload' });
       }
+
       try {
         const file = req.file;
         if (!file) {

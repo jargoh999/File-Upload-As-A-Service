@@ -5,7 +5,7 @@
 /.pnp
 .pnp.*
 .yarn/*
-!.yarn/patches
+!.yarn/
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
@@ -14,7 +14,7 @@
 /coverage
 
 # next.js
-.next
+/.next/
 /out/
 
 # production
